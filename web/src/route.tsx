@@ -1,20 +1,20 @@
 import { lazily } from "react-lazily";
 import { AcademicCapIcon, UserIcon } from "@heroicons/react/outline";
 
-// function AuthorizedComponent(props: any) {
-//   const { children } = props;
-//   // const history = useHistory();
-//   const isLoggedIn = localStorage.getItem("loggedIn") === "true";
+export function AuthorizedComponent() {
+  // const { children } = props;
+  // const history = useHistory();
+  const isLoggedIn = localStorage.getItem("loggedIn") === "true";
 
-//   if (isLoggedIn) {
-//     return children;
-//   } else {
-//     // history.push("/login");
-//     return null;
-//   }
-// }
+  if (isLoggedIn) {
+    return MAIN_ROUTES;
+  } else {
+    // history.push("/login");
+    return AuthRoutes;
+  }
+}
 
-export const MAIN_ROUTES = [
+export const AuthRoutes = [
   {
     path: "/login",
     component: (): React.FunctionComponent => {
@@ -35,6 +35,17 @@ export const MAIN_ROUTES = [
   },
   {
     path: "/",
+    component: () => {
+      const { Login } = lazily(() => import("./pages/auth/login"));
+      return Login;
+    },
+    key: "login"
+  }
+];
+
+export const MAIN_ROUTES = [
+  {
+    path: "/home",
     component: () => {
       const { HomeLayout } = lazily(() => import("./layouts/home"));
       return HomeLayout;

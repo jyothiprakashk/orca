@@ -1,27 +1,36 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
 // import { useState } from "react";
-// import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
 
 export function Login() {
-  // const history = useHistory();
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  const onFinish = async (values: any) => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const onFinish = async () => {
     try {
+      const values = {
+        username: email,
+        password: password
+      };
+      console.log(values, "jyothiprakash");
       // values.password = btoa(values.password);
-      localStorage.setItem("loggedIn", "true");
-      // history.push("/home");
-      // const result = await axios.post("/api/user/login", values);
-      // console.log(result.data);
-      // if (!result.data.success) {
-      //   message.error("Login failed");
-      // } else {
-      //   localStorage.setItem("loggedIn", "true");
-      //   import("../main").then(({ Mainpage }) => ({
-      //     default: Mainpage
-      //   }));
-      //   // message.success("Login successfull");
-      // }
+      const result = await axios.post("/v1/auth/signin", values);
+      console.log(result, "useNavigate");
+      console.log(result.data);
+      if (!result.data.success) {
+        // message.error("Login failed");
+      } else {
+        // localStorage.setItem("loggedIn", "true");
+        localStorage.setItem("loggedIn", "true");
+        // navigate("/home");
+        // window.location.href = "/home";
+        // import("../main").then(({ Mainpage }) => ({
+        //   default: Mainpage
+        // }));
+        // message.success("Login successfull");
+      }
     } catch (error) {
       console.log(error);
       // message.error(`Login failed! Error: ${error}`);
@@ -29,7 +38,7 @@ export function Login() {
   };
   return (
     <>
-      <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="d-flex w-full min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div>
             <img
@@ -56,6 +65,7 @@ export function Login() {
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="Email address"
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div>
@@ -70,6 +80,7 @@ export function Login() {
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
             </div>

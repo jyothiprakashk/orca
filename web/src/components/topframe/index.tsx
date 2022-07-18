@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { MenuIcon, ChevronDownIcon, XIcon } from "@heroicons/react/outline";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CogIcon } from "@heroicons/react/solid";
 // import { useHistory } from "react-router-dom";
 
@@ -20,7 +20,14 @@ export interface TopFrameInterface {
 }
 
 export function TopFrame(props: TopFrameInterface) {
+  const navigate = useNavigate();
   const { navigation, isAdmin } = props;
+
+  const sessionLogout = () => {
+    navigate("/");
+    localStorage.setItem("loggedIn", "false");
+    window.location.href = "/";
+  };
 
   return (
     <div>
@@ -120,12 +127,13 @@ export function TopFrame(props: TopFrameInterface) {
                         <Menu.Item>
                           {({ active }) => (
                             <a
-                              href="/"
+                              // href="/"
                               className={classNames(
                                 active ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm text-gray-700"
                               )}
                               key={"signout"}
+                              onClick={sessionLogout}
                             >
                               Sign out
                             </a>

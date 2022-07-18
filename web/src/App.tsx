@@ -2,20 +2,25 @@ import { Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Skeleton } from "antd";
 
-import { MAIN_ROUTES } from "./route";
+import { AuthorizedComponent, MAIN_ROUTES } from "./route";
 import { TopFrame } from "./components/topframe";
 import { Sidebar } from "./components/sidebar";
 
 import "antd/dist/antd.css";
 
 function App() {
+  const data = AuthorizedComponent();
+  console.log(data, "AuthorizedComponent");
+
+  const isLoggedIn = localStorage.getItem("loggedIn") === "true";
+
   return (
     <BrowserRouter>
-      <TopFrame navigation={MAIN_ROUTES} />
+      {isLoggedIn && <TopFrame navigation={MAIN_ROUTES} />}
       <main className="flex">
         <Suspense fallback={<Skeleton active={true} />}>
           <Routes>
-            {MAIN_ROUTES.map((route) => {
+            {data.map((route) => {
               const Component = route.component();
               return (
                 <Route
@@ -23,8 +28,8 @@ function App() {
                   key={route.key}
                   element={<Component />}
                 >
-                  {route.nestedRoute
-                    ? route.nestedRoute.map((route) => {
+                  {/* {route?.nestedRoute
+                    ? route?.nestedRoute.map((route) => {
                         const Element = route.component();
                         return (
                           <Route
@@ -34,7 +39,7 @@ function App() {
                           />
                         );
                       })
-                    : null}
+                    : null} */}
                 </Route>
               );
             })}
