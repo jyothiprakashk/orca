@@ -53,6 +53,14 @@ export const MAIN_ROUTES = [
     key: "home"
   },
   {
+    path: "/studio",
+    component: () => {
+      const { Studio } = lazily(() => import("./components/studio/index"));
+      return Studio;
+    },
+    key: "home"
+  },
+  {
     path: "/admin",
     component: () => {
       const { AdminLayout } = lazily(() => import("./layouts/admin"));
@@ -103,10 +111,18 @@ export const MAIN_ROUTES = [
       {
         path: ":id/datatable",
         component: () => {
-          const { DataTable } = lazily(() => import("./datatable"));
+          const { DataTable } = lazily(() => import("./pages/suit/datatable"));
           return DataTable;
         },
         key: "datatable"
+      },
+      {
+        path: ":id/datatableold",
+        component: () => {
+          const { DataTable } = lazily(() => import("./datatable"));
+          return DataTable;
+        },
+        key: "datatableold"
       },
       {
         path: ":id/stepgroup",

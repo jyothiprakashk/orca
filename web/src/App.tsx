@@ -4,7 +4,6 @@ import { Skeleton } from "antd";
 
 import { AuthorizedComponent, MAIN_ROUTES } from "./route";
 import { TopFrame } from "./components/topframe";
-import { Sidebar } from "./components/sidebar";
 
 import "antd/dist/antd.css";
 

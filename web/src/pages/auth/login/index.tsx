@@ -14,7 +14,9 @@ export function Login() {
         username: email,
         password: password
       };
-      console.log(values, "jyothiprakash");
+      localStorage.setItem("loggedIn", "true");
+      navigate("/home");
+      window.location.href = "/home";
       // values.password = btoa(values.password);
       const result = await axios.post("/v1/auth/signin", values);
       console.log(result, "useNavigate");
